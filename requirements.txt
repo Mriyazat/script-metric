@@ -1,0 +1,10 @@
+# The metric itself (script_metric.py) needs only numpy + pandas.
+numpy>=1.24
+pandas>=2.0
+
+# The reproduction pipeline additionally needs:
+matplotlib>=3.7
+
+# Optional: stage 04 uses scipy's digamma when available (a pure-numpy
+# fallback is built in, so this is not required).
+# scipy>=1.10

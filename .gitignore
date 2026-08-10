@@ -1,0 +1,11 @@
+# Everything this repository produces or downloads. A clean checkout is code.
+out/
+raw/
+
+__pycache__/
+*.pyc
+*.log
+.DS_Store
+.ipynb_checkpoints/
+.venv/
+venv/
