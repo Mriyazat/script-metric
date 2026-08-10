@@ -127,18 +127,26 @@ python script_metric.py distance a.json b.json
 python script_metric.py identify probe_spans.csv profiles_dir/
 ```
 
-`spans.csv` needs three columns and nothing else:
+`spans.csv` needs three columns and nothing else. The labels below are three
+of the paper's actual clinician codes (VIN = validation, DIR = direct advice,
+QOP = open question):
 
 | response_id | label | position |
 |---|---|---|
-| r001 | empathy | 0.04 |
-| r001 | advice  | 0.51 |
-| r001 | question| 0.92 |
+| r001 | VIN | 0.04 |
+| r001 | DIR | 0.51 |
+| r001 | QOP | 0.92 |
 
 `position` is the span's **start**, normalised to `[0, 1]`. (Give
 `start` + `response_length` instead and it will be computed for you.) Only the
 start is used, never the length — how *much* an annotator highlights is the
 most annotator-dependent choice, while *where a highlight begins* is stable.
+
+Every number the paper reports is computed at full resolution: the complete
+**20-code** clinician scheme and **10 position bins** (the defaults above).
+The coarse empathy / advice / question groups that appear in the figures and
+the explainer are a colour key for reading, never the label set the metric
+runs on.
 
 Any label scheme works: behaviour codes, error types, dialogue acts, toxicity
 spans. There is no reference output, no user rating, no logits, no model
