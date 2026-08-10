@@ -58,33 +58,10 @@ python script_metric.py distance a.json b.json
 python script_metric.py identify probe_spans.csv profiles_dir/
 ```
 
-`spans.csv` needs three columns and nothing else:
-
-| response_id | label | position |
-|---|---|---|
-| r001 | VIN | 0.04 |
-| r001 | DIR | 0.51 |
-| r001 | QOP | 0.92 |
-
-`position` is the span's **start**, normalised to `[0, 1]`. (Give
-`start` + `response_length` instead and it will be computed for you.) Any
-label scheme works: behaviour codes, error types, dialogue acts, toxicity
-spans. No reference output, no user rating, no logits, no model access.
-
-### Reading the number
-
-| SCRIPT | what it looks like | measured on |
-|---|---|---|
-| ~0.00 | content-driven, no template | MT error spans, WMT24 |
-| ~0.02 | mild structure | hallucination spans, RAGTruth |
-| ~0.05 | partial structure, streaks | data-to-text error spans |
-| ~0.05 | human counsellors' session-level routine | [AnnoMI](https://github.com/uccollab/AnnoMI) motivational interviewing |
-| ~0.10 | hard behavioural template | LLM counseling behaviour codes |
-| 0.85  | a perfect fixed template | synthetic ground truth |
-
-Raw values are only comparable within one annotation scheme (the alphabet
-fixes the null level), so read the rows as anchors, not a ranking. Report `z`
-alongside the score, and treat strata below ~1,000 events as lower bounds.
+`spans.csv` has columns `response_id`, `label`, `position` — the span's
+**start**, normalised to `[0, 1]` (or give `start` + `response_length` and it
+is computed for you). Any label scheme works: behaviour codes, error types,
+dialogue acts, toxicity spans.
 
 ## SCRIPT-Seq — deciding as the annotations arrive
 
