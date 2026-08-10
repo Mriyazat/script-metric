@@ -3,7 +3,7 @@
 **A reference-free measure of how much of a model's behaviour was decided
 before it read your message.**
 
-📖 **[Read the illustrated explainer →](https://ADD-YOUR-USERNAME.github.io/script-metric/)**
+📖 **[Read the illustrated explainer →](https://Mriyazat.github.io/script-metric/)**
 (worked example, interactive guessing game, no maths background needed)
 
 ---
