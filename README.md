@@ -154,18 +154,28 @@ access, and no second system anywhere in the estimator.
 
 ### Reading the number
 
-Measured on three unrelated annotation schemes, all recomputed by this
-repository (`pipeline/11_external_anchors.py`):
+Measured on unrelated annotation schemes, all recomputed by this repository
+(`pipeline/11_external_anchors.py`; AnnoMI in
+`pipeline/16_betting_applications.py` and `explore/e2_annomi.py`):
 
 | SCRIPT | what it looks like | measured on |
 |---|---|---|
 | ~0.00 | content-driven, no template | MT error spans, WMT24 |
 | ~0.02 | mild structure | hallucination spans, RAGTruth |
 | ~0.05 | partial structure, streaks | data-to-text error spans |
+| ~0.05 | human counsellors' session-level routine | [AnnoMI](https://github.com/uccollab/AnnoMI) motivational interviewing |
 | ~0.10 | hard behavioural template | LLM counseling behaviour codes |
 | 0.85  | a perfect fixed template | synthetic ground truth |
 
 `SCRIPT = 0` means "no arrangement structure beyond chance", not "no spans".
+
+Raw values are only comparable within one annotation scheme (the alphabet
+fixes the null level), so read the rows as anchors, not a ranking. The AnnoMI
+row is the instrument on *human* experts under their own 4-label MI scheme,
+positions taken over the whole session: real, certifiable routine
+(SCRIPT = 0.047, z = 24.5) — and still half the LLM counseling level, echoing
+the benchmark's own therapist baseline, where the human is the least scripted
+speaker.
 
 **Operating range.** SCRIPT is biased downward below roughly 1,000 events, so
 treat small strata with care and never compare a large stratum against a small
