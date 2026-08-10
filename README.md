@@ -63,6 +63,23 @@ python script_metric.py identify probe_spans.csv profiles_dir/
 is computed for you). Any label scheme works: behaviour codes, error types,
 dialogue acts, toxicity spans.
 
+Two optional flags extend the score:
+
+```bash
+python script_metric.py score spans.csv --ceiling      # fraction of achievable rigidity
+python script_metric.py score spans.csv --extrapolate  # small-sample bias correction
+```
+
+`--ceiling` scores the most scripted arrangement of your corpus's **own**
+events (same responses, positions, and label mixes) and reports
+`SCRIPT / ceiling` — a 0–1 *fraction of achievable rigidity* that can be read
+across annotation schemes, which raw scores cannot (the alphabet and event
+density set the ceiling).
+
+`--extrapolate` corrects the downward bias of small corpora by fitting the
+score against `1/n` over subsamples and reporting the asymptote — exact from
+a few hundred responses, conservative below.
+
 ## SCRIPT-Seq — deciding as the annotations arrive
 
 `script_betting.py` is the sequential version: an anytime-valid test by

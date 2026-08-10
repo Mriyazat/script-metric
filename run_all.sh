@@ -58,6 +58,7 @@ $PY 08_multiturn_extension.py
 $PY 09_quality_matched_check.py
 $PY 11_external_anchors.py
 $PY 12_therapist_baseline.py
+$PY 17_ceiling_extrapolation.py
 
 echo "=== 9. figures ============================================"
 $PY 13_figure_data.py

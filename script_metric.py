@@ -30,8 +30,22 @@ Usage
 -----
     python3 script_metric.py score  spans.csv  [--shuffles 200] [--bins 10]
                                                [--profile out.json]
+                                               [--ceiling] [--extrapolate]
     python3 script_metric.py distance  a.json  b.json
     python3 script_metric.py identify  probe_spans.csv  profiles_dir/
+
+--ceiling      also reports the MATCHED CEILING: the score of the most
+               scripted arrangement of this corpus's own events (same
+               responses, same positions, same per-response label multisets,
+               labels re-dealt in a fixed position order). SCRIPT / ceiling
+               is the fraction of achievable rigidity — a [0,1] quantity
+               that travels across annotation schemes better than the raw
+               score, whose ceiling depends on the alphabet and event density.
+--extrapolate  also reports a small-sample bias-corrected estimate:
+               subsample the corpus, fit SCRIPT against 1/n_events, report
+               the extrapolated asymptote. Recovers the large-sample value
+               from roughly 200 responses; below that it reduces the
+               downward bias but does not remove it (report z there).
 
 Dependencies: numpy, pandas. Single file; no other code needed.
 Interpretation ruler (measured, three unrelated annotation schemes):
@@ -126,6 +140,67 @@ def compute(df, n_bins=10, n_shuffles=200, seed=0):
             n_bins=n_bins)
 
 
+# --------------------------------------------- ceiling / extrapolation add-ons
+
+def matched_ceiling(df, n_bins=10, n_shuffles=200, seed=0):
+    """SCRIPT of the most scripted arrangement of this corpus's own events.
+
+    Deterministic construction inside the null's invariance class: keep every
+    response, every position, and every response's own label multiset, and
+    re-deal each response's labels in a single canonical order (labels sorted
+    by their global mean position). Labels then occupy fixed slots and chain
+    in blocks — the ceiling the data's own composition and density allow.
+
+    SCRIPT / ceiling is the "fraction of achievable rigidity": 0 = content-
+    driven, 1 = as scripted as this corpus could possibly be. Unlike the raw
+    score, whose ceiling varies with alphabet size and events per response,
+    the fraction is read on one scale across annotation schemes.
+    """
+    order = {l: i for i, l in
+             enumerate(df.groupby(df.label.astype(str)).position.mean()
+                       .sort_values().index)}
+    parts = []
+    for _, g in df.groupby("response_id", sort=False):
+        g = g.sort_values("position").copy()
+        g["label"] = sorted(g.label.astype(str), key=lambda l: order[l])
+        parts.append(g)
+    arranged = pd.concat(parts, ignore_index=True)
+    res, _ = compute(arranged, n_bins=n_bins, n_shuffles=n_shuffles, seed=seed)
+    return res
+
+
+def extrapolate(df, n_bins=10, fractions=(0.25, 0.4, 0.6, 0.8, 1.0),
+                draws=10, n_shuffles=60, seed=0):
+    """Small-sample bias-corrected SCRIPT by subsample extrapolation.
+
+    The null-subtracted score is downward-biased at small n (the signal has
+    not risen above the noise floor the null removes). This estimator
+    subsamples responses at several fractions, fits SCRIPT against
+    1/n_events, and reports the intercept — the value the corpus is heading
+    toward. Validated on the benchmark: recovers the full-sample score from
+    ~200 responses; below that it shrinks the bias but stays conservative.
+    """
+    rng = np.random.default_rng(seed)
+    rids = df.response_id.unique()
+    intercepts, curve = [], {f: [] for f in fractions}
+    for d in range(draws):
+        xs, ys = [], []
+        for f in fractions:
+            k = max(10, int(round(len(rids) * f)))
+            ids = rng.choice(rids, min(k, len(rids)), replace=False)
+            r, _ = compute(df[df.response_id.isin(ids)], n_bins=n_bins,
+                           n_shuffles=n_shuffles, seed=seed * 1000 + d)
+            xs.append(1.0 / r["n_events"]); ys.append(r["SCRIPT"])
+            curve[f].append((r["n_events"], r["SCRIPT"]))
+        intercepts.append(float(np.polyfit(xs, ys, 1)[-1]))
+    pts = [(int(np.mean([a for a, _ in curve[f]])),
+            round(float(np.mean([b for _, b in curve[f]])), 4))
+           for f in fractions]
+    return dict(SCRIPT_extrapolated=round(float(np.mean(intercepts)), 4),
+                se=round(float(np.std(intercepts)), 4),
+                subsample_curve=pts, draws=draws)
+
+
 # ------------------------------------------------- profile distance / identify
 
 def _js(p, q):
@@ -199,6 +274,10 @@ def main():
     s.add_argument("spans"); s.add_argument("--bins", type=int, default=10)
     s.add_argument("--shuffles", type=int, default=200)
     s.add_argument("--profile", help="write the fingerprint profile JSON here")
+    s.add_argument("--ceiling", action="store_true",
+                   help="also report the matched ceiling and SCRIPT/ceiling")
+    s.add_argument("--extrapolate", action="store_true",
+                   help="also report the small-sample bias-corrected estimate")
     d = sub.add_parser("distance", help="behavioral distance between two profiles")
     d.add_argument("a"); d.add_argument("b")
     i = sub.add_parser("identify", help="match probe spans to stored profiles")
@@ -207,7 +286,16 @@ def main():
     args = ap.parse_args()
 
     if args.cmd == "score":
-        res, prof = compute(load_spans(args.spans), args.bins, args.shuffles)
+        df = load_spans(args.spans)
+        res, prof = compute(df, args.bins, args.shuffles)
+        if args.ceiling:
+            ceil = matched_ceiling(df, args.bins, args.shuffles)
+            res["ceiling"] = max(ceil["SCRIPT"], res["SCRIPT"])
+            res["fraction_of_ceiling"] = round(
+                res["SCRIPT"] / res["ceiling"], 4) if res["ceiling"] > 0 \
+                else float("nan")
+        if args.extrapolate:
+            res.update(extrapolate(df, args.bins))
         print(json.dumps(res, indent=2))
         if args.profile:
             with open(args.profile, "w") as f:
