@@ -105,6 +105,11 @@ bash run_all.sh
 and verifies it; the pipeline then recomputes every table and figure into
 `out/`. Expect a few hours end to end.
 
+`pipeline/18_llm_annotator.py` (optional, needs an API key) re-annotates the
+raw replies with a blind open-weights LLM under the same 20-code scheme and
+compares SCRIPT against the clinician span layer — the annotation-cost
+experiment. See its docstring.
+
 ## Licence and citation
 
 Code: MIT (see `LICENSE`). No dataset is redistributed; each corpus keeps its
