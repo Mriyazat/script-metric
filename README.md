@@ -8,6 +8,18 @@
 
 <sub><i>Figure 1 of the paper: from one annotated response to the score and the profile.</i></sub>
 
+<br><br>
+
+<img src="assets/figure2_results.png" width="100%" alt="Figure 2">
+
+<sub><i>Figure 2: the same response, ten times. Five models place the same behaviours in the same seats at every turn of a conversation; the human therapist answering the same user does not. Right: what moves the models is what the person states, not what the person feels.</i></sub>
+
+<br><br>
+
+<img src="assets/figureB3_profile.png" width="100%" alt="Figure B.3">
+
+<sub><i>Figure B.3: tied scores, five profiles. Four of the five scores overlap; the profiles behind them name the model from a handful of annotated responses.</i></sub>
+
 <br>
 
 
@@ -91,6 +103,6 @@ score, profile = metric.compute(metric.load_spans("spans.csv"))
 
 ## Data
 
-<sub><i>Nothing is redistributed;</i> `reproduce.sh data` <i>fetches each source at its pinned revision.</i></sub>
+<sub><i>Datasets are downloaded from their original sources, at the exact versions used in the paper, by</i> `reproduce.sh data`<i>; none are stored in this repository.</i></sub>
 
 [Cognitive Atrophy Benchmark](https://huggingface.co/datasets/abadawi/Cognitive_Atrophy_Benchmark) · [MINT / Lend an Ear](https://github.com/honglizhan/mint-empathy) · [AnnoMI](https://github.com/uccollab/AnnoMI) · [span annotations (WMT24, data-to-text, propaganda)](https://github.com/llm-span-annotators/span-annotation) · [RAGTruth](https://github.com/ParticleMedia/RAGTruth)
