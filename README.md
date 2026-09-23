@@ -10,9 +10,6 @@ $\color{#7c8790}{\textit{Figure 1 of the paper: from one annotated response to t
 
 <br>
 
-<img src="https://img.shields.io/badge/python-3.10%2B-3d6fae?style=for-the-badge&logo=python&logoColor=white" alt="python">&nbsp;
-<img src="https://img.shields.io/badge/numpy%20%C2%B7%20pandas-8e5bb5?style=for-the-badge" alt="deps">&nbsp;
-<img src="https://img.shields.io/badge/one%20command%20per%20table-2a9d8f?style=for-the-badge" alt="reproduce">
 
 </div>
 
