@@ -1,12 +1,12 @@
 <div align="center">
 
-<img src="assets/header.svg" width="100%" alt="SCRIPT — measuring behavioural scriptedness from span annotations">
+<img src="assets/header.png" width="100%" alt="SCRIPT — measuring behavioural scriptedness from span annotations">
 
 <br><br>
 
 <img src="assets/figure1_method.png" width="100%" alt="Figure 1">
 
-$\color{#7c8790}{\textit{Figure 1 of the paper: from one annotated response to the score and the profile.}}$
+<sub><i>Figure 1 of the paper: from one annotated response to the score and the profile.</i></sub>
 
 <br>
 
@@ -15,9 +15,9 @@ $\color{#7c8790}{\textit{Figure 1 of the paper: from one annotated response to t
 
 <br>
 
-## $\color{#3d6fae}{\textsf{Setup}}$
+## Setup
 
-$\color{#7c8790}{\textit{Python 3.10+, two dependencies for the metric, four for the paper. No API key needed: the LLM re-annotation ships as a cache.}}$
+<sub><i>Python 3.10+, two dependencies for the metric, four for the paper. No API key needed: the LLM re-annotation ships as a cache.</i></sub>
 
 ```bash
 git clone https://github.com/Mriyazat/script-metric.git && cd script-metric
@@ -28,9 +28,9 @@ bash reproduce.sh data          # fetch and verify every input, once (~500 MB)
 
 <br>
 
-## $\color{#d1495b}{\textsf{Reproduce the paper}}$
+## Reproduce the paper
 
-$\color{#7c8790}{\textit{One command per table and figure. Each prints the files it wrote to}}$ `out/`.
+<sub><i>One command per table and figure. Each prints the files it wrote to</i> `out/`.</sub>
 
 <table>
 <tr><td><img src="https://img.shields.io/badge/Table%202-%C2%A75.1-26323a?style=flat-square" alt="Table 2"></td><td><code>bash reproduce.sh table2</code></td></tr>
@@ -43,7 +43,7 @@ $\color{#7c8790}{\textit{One command per table and figure. Each prints the files
 <tr><td><img src="https://img.shields.io/badge/everything%20above-%C2%A75-2a9d8f?style=flat-square" alt="main"></td><td><code>bash reproduce.sh main</code></td></tr>
 </table>
 
-$\color{#7c8790}{\textit{Appendix, one command per section.}}$
+<sub><i>Appendix, one command per section.</i></sub>
 
 <table>
 <tr><td><img src="https://img.shields.io/badge/A-26323a?style=flat-square" alt="A"></td><td><code>bash reproduce.sh A</code></td>
@@ -66,9 +66,9 @@ $\color{#7c8790}{\textit{Appendix, one command per section.}}$
 
 <br>
 
-## $\color{#4f9d6b}{\textsf{Use SCRIPT on your own annotations}}$
+## Use SCRIPT on your own annotations
 
-$\color{#7c8790}{\textit{A CSV with}}$ `response_id`, `label`, `position` $\color{#7c8790}{\textit{(span start in [0, 1]).}}$
+<sub><i>A CSV with</i> `response_id`, `label`, `position` <i>(span start in [0, 1]).</i></sub>
 
 ```bash
 python -m scriptmetric.metric  score    spans.csv --shuffles 200 --bins 10 --profile out.json
@@ -89,8 +89,8 @@ score, profile = metric.compute(metric.load_spans("spans.csv"))
 
 <br>
 
-## $\color{#8e5bb5}{\textsf{Data}}$
+## Data
 
-$\color{#7c8790}{\textit{Nothing is redistributed;}}$ `reproduce.sh data` $\color{#7c8790}{\textit{fetches each source at its pinned revision.}}$
+<sub><i>Nothing is redistributed;</i> `reproduce.sh data` <i>fetches each source at its pinned revision.</i></sub>
 
 [Cognitive Atrophy Benchmark](https://huggingface.co/datasets/abadawi/Cognitive_Atrophy_Benchmark) · [MINT / Lend an Ear](https://github.com/honglizhan/mint-empathy) · [AnnoMI](https://github.com/uccollab/AnnoMI) · [span annotations (WMT24, data-to-text, propaganda)](https://github.com/llm-span-annotators/span-annotation) · [RAGTruth](https://github.com/ParticleMedia/RAGTruth)
