@@ -71,7 +71,7 @@ $\color{#7c8790}{\textit{Appendix, one command per section.}}$
 
 ## $\color{#4f9d6b}{\textsf{Use SCRIPT on your own annotations}}$
 
-$\color{#7c8790}{\textit{A CSV with}}$ `response_id`, `label`, `position` $\color{#7c8790}{\textit{(span start in [0, 1]). Any label scheme.}}$
+$\color{#7c8790}{\textit{A CSV with}}$ `response_id`, `label`, `position` $\color{#7c8790}{\textit{(span start in [0, 1]).}}$
 
 ```bash
 python -m scriptmetric.metric  score    spans.csv --shuffles 200 --bins 10 --profile out.json
@@ -89,9 +89,3 @@ score, profile = metric.compute(metric.load_spans("spans.csv"))
 ```
 
 <br>
-
-## $\color{#8e5bb5}{\textsf{Data}}$
-
-$\color{#7c8790}{\textit{Nothing is redistributed;}}$ `reproduce.sh data` $\color{#7c8790}{\textit{fetches each source at its pinned revision.}}$
-
-[Cognitive Atrophy Benchmark](https://huggingface.co/datasets/abadawi/Cognitive_Atrophy_Benchmark) · [MINT / Lend an Ear](https://github.com/honglizhan/mint-empathy) · [AnnoMI](https://github.com/uccollab/AnnoMI) · [span annotations (WMT24, data-to-text, propaganda)](https://github.com/llm-span-annotators/span-annotation) · [RAGTruth](https://github.com/ParticleMedia/RAGTruth)
