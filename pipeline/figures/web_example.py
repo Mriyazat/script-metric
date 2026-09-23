@@ -155,6 +155,28 @@ for m in MODELS:
 best = max(attrib, key=lambda m: attrib[m]["loglik"])
 runner = sorted(attrib.values(), key=lambda a: -a["loglik"])[1]["loglik"]
 
+# ----------------------------------------- a sample of replies for the hero loop
+# forty of this system's replies (the worked one first), each as its slots:
+# start position and the code families that share that start
+rng = np.random.default_rng(SEED)
+ids = [this_id] + list(rng.permutation(
+    [r for r in sysE.response_id.unique() if r != this_id]))
+sample = []
+for r in ids:
+    if len(sample) == 40:
+        break
+    d = sysE[sysE.response_id == r].sort_values("position", kind="stable")
+    d = d[d.label.map(GROUP) != "other"]
+    if len(d) < 4:
+        continue
+    sl = []
+    for x, g in zip(d.position.round(4), d.label.map(GROUP)):
+        if sl and sl[-1]["x"] == x:
+            sl[-1]["g"].append(g)
+        else:
+            sl.append(dict(x=float(x), g=[g]))
+    sample.append(dict(id=r.replace(f"|{SYSTEM}", ""), slots=sl))
+
 # ------------------------------------------------------------------------ write
 D = dict(
     about="Worked example of the SCRIPT website, computed by pipeline/figures/web_example.py",
@@ -170,7 +192,7 @@ D = dict(
                C=score["C_excess"], M=score["M_excess"],
                ceiling=round(float(ceiling), 4),
                frac=round(score["SCRIPT"] / ceiling, 3)),
-    attrib=attrib,
+    attrib=attrib, sample=sample,
     meta=dict(reply=f"{CORPUS}|{ROW}", system=SYSTEM, n_responses=score["n_responses"],
               n_codes=len(CODE_ORDER), B=B, S=S, seed=SEED,
               points_to=best, margin=round(attrib[best]["loglik"] - runner, 3)),
