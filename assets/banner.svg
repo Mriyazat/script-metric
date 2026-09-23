@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6f4ef"/>
+      <stop offset="1" stop-color="#ece9e1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="260" rx="22" fill="url(#bg)"/>
+
+  <!-- a stylised response strip: empathy opens, advice fills the middle, questions close -->
+  <g transform="translate(64,64)">
+    <rect x="0"   y="0" width="150" height="18" rx="4" fill="#3d6fae"/>
+    <rect x="158" y="0" width="70"  height="18" rx="4" fill="#3d6fae" opacity=".55"/>
+    <rect x="236" y="0" width="210" height="18" rx="4" fill="#d1495b"/>
+    <rect x="454" y="0" width="120" height="18" rx="4" fill="#d1495b" opacity=".6"/>
+    <rect x="582" y="0" width="90"  height="18" rx="4" fill="#c9ced3"/>
+    <rect x="680" y="0" width="140" height="18" rx="4" fill="#4f9d6b"/>
+    <rect x="828" y="0" width="244" height="18" rx="4" fill="#4f9d6b" opacity=".55"/>
+    <!-- position axis -->
+    <line x1="0" y1="34" x2="1072" y2="34" stroke="#c8cdd2" stroke-width="1.5"/>
+    <g fill="#7c8790" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="12">
+      <text x="0" y="52">start of the response</text>
+      <text x="1072" y="52" text-anchor="end">end</text>
+    </g>
+  </g>
+
+  <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+    <text x="64" y="176" font-size="64" font-weight="800" fill="#26323a" letter-spacing="6">SCRIPT</text>
+    <text x="64" y="214" font-size="22" fill="#26323a" opacity=".85">Measuring behavioural scriptedness from span annotations</text>
+  </g>
+
+  <g transform="translate(900,150)" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="13" fill="#26323a">
+    <rect x="0" y="0" width="236" height="82" rx="12" fill="#ffffff" stroke="#e2e5e8"/>
+    <text x="18" y="27" font-weight="700">reads</text><text x="90" y="27">(behaviour, position) events</text>
+    <text x="18" y="49" font-weight="700">returns</text><text x="90" y="49">SCRIPT = C + M, z, a profile</text>
+    <text x="18" y="71" font-weight="700">needs</text><text x="90" y="71">no text, no reference, no weights</text>
+  </g>
+</svg>
