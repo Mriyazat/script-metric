@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SCRIPT — measuring behavioural scriptedness from span annotations</title>
+<title>SCRIPT: measuring behavioural scriptedness from span annotations</title>
 <meta name="description" content="SCRIPT is a reference-free, chance-calibrated measure of how much of a reply's behaviour was fixed by where it sits and what came before, rather than by the person it answers.">
-<meta property="og:title" content="SCRIPT — measuring behavioural scriptedness from span annotations">
+<meta property="og:title" content="SCRIPT: measuring behavioural scriptedness from span annotations">
 <meta property="og:description" content="How much of a reply was decided before the person was read.">
 <meta property="og:image" content="https://mriyazat.github.io/script-metric/assets/figure1_method.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -397,7 +397,6 @@ score, profile = metric.compute(metric.load_spans(<span class="o">"spans.csv"</s
     <div class="card">
       <div class="h6">what the last command prints</div>
       <div class="map" id="repromap"></div>
-      <div class="cap">Tables 2–4 and Figures 1–3 of the paper each have their own target: <span class="mono">bash reproduce.sh table2</span>, <span class="mono">fig2</span>, … ; <span class="mono">bash reproduce.sh list</span> shows them all.</div>
     </div>
   </div>
 </div></section>
@@ -427,7 +426,7 @@ const li = c => D.labels.indexOf(c);
     <div class="rows">`;
   fams.forEach(f=>{ h += `<div class="lab t-${f}">${f}</div><div class="cells" data-f="${f}">${'<i></i>'.repeat(10)}</div>`; });
   h += `<div class="axis"><span>start of the reply</span><span>end</span></div></div>
-    <div class="foot"><span class="t-empathy">empathy</span> opens, <span class="t-advice">advice</span> fills the middle, <span class="t-questions">questions</span> close — the same seats in every reply, whoever wrote in.</div>`;
+    <div class="foot"><span class="t-empathy">empathy</span> opens, <span class="t-advice">advice</span> fills the middle, <span class="t-questions">questions</span> close. The same seats in every reply, whoever wrote in.</div>`;
   box.innerHTML = h;
   const cells = {}; fams.forEach(f=>cells[f]=[...box.querySelector(`.cells[data-f="${f}"]`).children]);
   const counts = {}; fams.forEach(f=>counts[f]=new Array(10).fill(0));
@@ -505,7 +504,7 @@ function step1(){
   const used=[...new Set(D.events.map(e=>e.code))];
   return `
   <h3>A benchmark already collected the only input the score needs</h3>
-  <p class="dek">One reply, shown whole, with the clinician's highlights under a 20-code manual. The metric never reads these words — only <em>which code</em> was marked and <em>where it starts</em>.</p>
+  <p class="dek">One reply, shown whole, with the clinician's highlights under a 20-code manual. The metric never reads these words, only <em>which code</em> was marked and <em>where it starts</em>.</p>
   <div class="two">
     <div>
       <div class="h6">the user's turn</div>
@@ -564,7 +563,7 @@ function step2(){
   const tbl=h=>`<table class="ev"><thead><tr><th style="text-align:left">code</th><th>p</th><th>x = p / |r|</th><th>X</th></tr></thead><tbody>${h.join('')}</tbody></table>`;
   return `
   <h3>Every highlight becomes one event: a code and where it starts</h3>
-  <p class="dek">Only the <em>start</em> of a span is used — how much text an annotator highlights is the least stable choice in span data; where it begins is not. Starts are normalised by reply length and dropped into <span class="num">B = ${D.meta.B}</span> equal bins.</p>
+  <p class="dek">Only the <em>start</em> of a span is used: how much text an annotator highlights is the least stable choice in span data; where it begins is not. Starts are normalised by reply length and dropped into <span class="num">B = ${D.meta.B}</span> equal bins.</p>
   <div class="two">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:start">${tbl(rows.slice(0,half))}${tbl(rows.slice(half))}</div>
     <div>
@@ -690,7 +689,7 @@ function step5(){
       <text x="${66+w+8}" y="${y+17}" font-size="11.5" font-family="JetBrains Mono" font-weight="${win?600:400}" fill="var(--${win?'M':'mute'})">${v.toFixed(3)}</text></g>`; }).join('');
   return `
   <h3>The same two tables are a fingerprint, and one reply already points</h3>
-  <p class="dek">The counts behind C and M, normalised, are the blueprint written down — and a classifier with <em>no training beyond counting</em>.</p>
+  <p class="dek">The counts behind C and M, normalised, are the blueprint written down, and a classifier with <em>no training beyond counting</em>.</p>
   <div class="two">
     <div>
       <div class="h6">scoring a probe against an enrolled system</div>
@@ -701,12 +700,12 @@ function step5(){
         <div class="kv"><span>points to</span><span style="color:var(--M)">${best}</span></div>
         <div class="kv"><span>margin over the runner-up</span><span>${D.meta.margin} nats / event</span></div>
       </div>
-      <p class="note" style="margin-top:12px">At 20 annotated replies the profile names the generating model <b>74%</b> of the time on a held-out corpus, against 20% chance — with no API access, no weights, and no text.</p>
+      <p class="note" style="margin-top:12px">At 20 annotated replies the profile names the generating model <b>74%</b> of the time on a held-out corpus, against 20% chance, with no API access, no weights, and no text.</p>
     </div>
     <div>
       <div class="h6">this one reply, scored under all five enrolled profiles</div>
       <svg viewBox="0 0 ${W+140} 236" width="100%" style="display:block;max-width:${W+140}px">${bars}</svg>
-      <div class="smallcap" style="margin-top:-4px">mean per-event log-likelihood — longer is a better match to that system's blueprint</div>
+      <div class="smallcap" style="margin-top:-4px">mean per-event log-likelihood; longer is a better match to that system's blueprint</div>
       <div class="two even" style="gap:14px;margin-top:22px">
         <div class="panel"><div style="font-weight:600;font-size:13px;margin-bottom:4px">the score says how strongly</div><p class="note" style="margin:0">SCRIPT = ${n(D.score.SCRIPT,3)} · ${Math.round(D.score.frac*100)}% of what this coding scheme permits · z = ${Math.round(D.score.z)} above chance</p></div>
         <div class="panel"><div style="font-weight:600;font-size:13px;margin-bottom:4px">the profile says which</div><p class="note" style="margin:0">Position and transition tables as a behavioural signature that survives the reduction to arrangement alone</p></div>
