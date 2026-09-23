@@ -9,8 +9,9 @@
 #   bash reproduce.sh list              show the targets
 #
 # Outputs go to out/tables/ and out/figures/. Targets that need the blind LLM
-# re-annotation (Table 2's LLM block, Table 3, Figure 2, B1, B2) rebuild it from the
-# cached replies in out/derived/llm_annotator/ and need no API key.
+# re-annotation (Table 2's LLM block, Table 3, Figure 2, B1, B2) read the shipped
+# event file data/llm_span_events.csv and need no API key. Only the span-by-span
+# agreement table of Appendix A needs the per-reply cache (an API key regenerates it).
 set -euo pipefail
 cd "$(dirname "$0")"
 PY="${PYTHON:-python3} -m"
@@ -18,8 +19,8 @@ PY="${PYTHON:-python3} -m"
 run() { echo; echo "▶ $*"; $PY "$@"; }
 need_events() { [ -f out/derived/span_events.csv ] || run pipeline.metric.events; }
 need_llm() {
-  [ -f out/derived/llm_span_events.csv ] || \
-    run pipeline.external.llm_annotator --annotator deepseek-v4-pro --include-therapist --from-cache
+  # the blind LLM layer ships as an event file (labels + positions, no text): data/llm_span_events.csv
+  [ -f out/tables/llm_annotator_comparison.csv ] || run pipeline.external.llm_layer_from_events
 }
 need_listening() { need_llm; [ -f out/tables/listening_budget.csv ] || run pipeline.external.listening; }
 need_anchors()   { [ -f out/tables/anchor_wmt24.csv ] || run pipeline.external.anchors; }
@@ -54,7 +55,9 @@ target() {
     main)     for t in table2 table3 table4 fig2 fig3 numbers; do target $t; done ;;
 
     # ---------------------------------------------------------------- appendix
-    A)        need_llm; run pipeline.external.llm_agreement; need_anchors
+    A)        need_llm; need_anchors
+              if [ -d out/derived/llm_annotator ]; then run pipeline.external.llm_agreement;
+              else echo "(agreement table skipped: needs the per-reply annotator cache; see README)"; fi
               echo "→ out/tables/llm_agreement*.csv  external_anchors.csv" ;;
     B1)       need_events; need_llm; run pipeline.metric.therapist_paired ALL; run pipeline.metric.therapist_baseline
               need_anchors; need_testbed2; run pipeline.external.empathy_tactics

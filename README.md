@@ -17,7 +17,7 @@
 
 ## Setup
 
-<sub><i>Python 3.10+, two dependencies for the metric, four for the paper. No API key needed: the LLM re-annotation ships as a cache.</i></sub>
+<sub><i>Python 3.10+, two dependencies for the metric, four for the paper. No API key needed: the blind LLM annotation layer of Testbed 1 is included as an event file (labels and positions, no text) at</i> <code>data/llm_span_events.csv</code><i>; only the span-by-span agreement table of Appendix A needs the per-reply cache, which a DeepSeek key regenerates.</i></sub>
 
 ```bash
 git clone https://github.com/Mriyazat/script-metric.git && cd script-metric
