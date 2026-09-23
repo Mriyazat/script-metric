@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.svg" width="100%" alt="SCRIPT — measuring behavioural scriptedness from span annotations">
+<img src="assets/header.svg" width="100%" alt="SCRIPT — measuring behavioural scriptedness from span annotations">
 
 <br><br>
 
