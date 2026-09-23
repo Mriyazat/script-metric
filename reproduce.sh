@@ -6,6 +6,7 @@
 #   bash reproduce.sh main              ... or all of Section 5 (Tables 2-4, Figures 2-3)
 #   bash reproduce.sh appendix          every appendix table and figure
 #   bash reproduce.sh B2                one appendix section (A .. D, B1 .. B5, C1 .. C6)
+#   bash reproduce.sh example           the worked example of the project page (docs/)
 #   bash reproduce.sh list              show the targets
 #
 # Outputs go to out/tables/ and out/figures/. Targets that need the blind LLM
@@ -53,6 +54,8 @@ target() {
               echo "→ out/figures/fig_results_closing.png  out/tables/identification_curves.csv  identification_baselines.csv" ;;
     numbers)  run pipeline.paper_tables; echo "→ out/tables/latex/numbers.json  (every number quoted in the prose)" ;;
     main)     for t in table2 table3 table4 fig2 fig3 numbers; do target $t; done ;;
+    example)  need_events; run pipeline.figures.web_example
+              echo "→ docs/example.json  (the worked example of the project page, docs/index.html)" ;;
 
     # ---------------------------------------------------------------- appendix
     A)        need_llm; need_anchors
@@ -101,10 +104,10 @@ target() {
     appendix) for t in A B1 B2 B3 B4 B5 C1 C2 C3 C4 C5 C6 D; do target $t; done ;;
 
     figures)  bash paper_figures.sh "${2:-../figures}" ;;
-    list)     sed -n '2,12p' "$0" ;;
+    list)     sed -n '2,13p' "$0" ;;
     *)        echo "unknown target '$1'; try: bash reproduce.sh list" >&2; exit 1 ;;
   esac
 }
 
-[ $# -ge 1 ] || { sed -n '2,12p' "$0"; exit 0; }
+[ $# -ge 1 ] || { sed -n '2,13p' "$0"; exit 0; }
 for t in "$@"; do target "$t"; done
