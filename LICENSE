@@ -24,7 +24,7 @@ SOFTWARE.
 
 This licence covers the CODE in this repository only.
 
-No dataset is redistributed here; `pipeline/00_get_data.py` downloads each
+No dataset is redistributed here; `pipeline/data/get_data.py` downloads each
 corpus from its origin, and each keeps its own licence:
 
   Cognitive Atrophy Benchmark   CC BY-NC 4.0
@@ -35,3 +35,9 @@ corpus from its origin, and each keeps its own licence:
 
   data-to-text / WMT24 error spans (Kasner et al., LLMs as Span Annotators)
   https://github.com/llm-span-annotators/span-annotation
+
+  AnnoMI                        see the upstream repository
+  https://github.com/uccollab/AnnoMI
+
+  Empathy-tactic annotations and system outputs (Zhan et al., MINT)   MIT
+  https://github.com/honglizhan/mint-empathy

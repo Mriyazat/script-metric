@@ -1,10 +1,11 @@
-# The metric itself (script_metric.py) needs only numpy + pandas.
+# The metric itself (script_metric.py, script_betting.py) needs only numpy and pandas.
 numpy>=1.24
 pandas>=2.0
 
 # The reproduction pipeline additionally needs:
 matplotlib>=3.7
+scipy>=1.10
 
-# Optional: stage 04 uses scipy's digamma when available (a pure-numpy
-# fallback is built in, so this is not required).
-# scipy>=1.10
+# Optional: nltk (punkt) reproduces Zhan et al.'s sentence split in
+# pipeline/external/empathy_checks.py; a regex splitter is used otherwise.
+# nltk>=3.8

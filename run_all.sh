@@ -1,74 +1,82 @@
 #!/usr/bin/env bash
-# Everything, from an empty checkout to every table and figure in the paper.
+# Reproduce every table and figure from an empty checkout.
 #
 #   bash run_all.sh
 #
-# Inputs are downloaded from HuggingFace and GitHub by stage 00; outputs land
-# in out/ (tables/, figures/, derived/, checkpoints/). Nothing is committed.
-#
-# The bootstrap stages are chunked so they can run in parallel or resume after
-# an interruption: each replicate has its own fixed seed and is checkpointed
-# under out/checkpoints/, so re-running a chunk is a no-op.
+# Inputs are downloaded by pipeline.data.get_data into raw/; outputs land in out/
+# (tables/, figures/, derived/, checkpoints/). Bootstrap stages are chunked and
+# checkpointed, so they can run in parallel shells or resume after an interruption.
+# The LLM-annotator experiment needs an API key and is run separately (see README).
 set -euo pipefail
-cd "$(dirname "$0")/pipeline"
-PY=${PYTHON:-python3}
+cd "$(dirname "$0")"
+PY="${PYTHON:-python3} -m"
 
-echo "=== 0. data ==============================================="
-$PY 00_get_data.py
+echo "=== data ==================================================="
+$PY pipeline.data.get_data
 
-echo "=== 1. the span layer ====================================="
-$PY 01_extract_events.py
-$PY 02_validate_metric.py
+echo "=== benchmark behaviour analysis ==========================="
+$PY pipeline.behaviour.attributes
+$PY pipeline.behaviour.spans
+$PY pipeline.behaviour.therapist
+$PY pipeline.behaviour.dynamics
+$PY pipeline.behaviour.phrases
 
-echo "=== 2. profiles and identity =============================="
-$PY 14_identification_curves.py      # 03 reads its curves
-$PY 03_profile_suite.py
+echo "=== the span layer and the metric =========================="
+$PY pipeline.metric.events
+$PY pipeline.metric.validate
+$PY pipeline.metric.identification
+$PY pipeline.metric.identification_baselines
+$PY pipeline.metric.profiles
 
-echo "=== 3. robustness ========================================="
-# 400 cluster-bootstrap replicates, as in the paper. Chunks are independent
-# and checkpointed, so they can also be launched in parallel shells.
-$PY 04_robustness_suite.py BOOT:0:100
-$PY 04_robustness_suite.py BOOT:100:200
-$PY 04_robustness_suite.py BOOT:200:300
-$PY 04_robustness_suite.py BOOT:300:400
-$PY 04_robustness_suite.py COLLECT
-$PY 04_robustness_suite.py ALL
+echo "=== robustness ============================================="
+for c in 0:100 100:200 200:300 300:400; do $PY pipeline.metric.robustness "BOOT:$c"; done
+$PY pipeline.metric.robustness COLLECT
+$PY pipeline.metric.robustness ALL
+for q in Q1 Q2 Q3 Q4; do $PY pipeline.metric.sensitivity "$q"; done
+for r in R1 R2 R3 R4 R5 R6; do $PY pipeline.metric.sensitivity "Q5A:$r"; done
+$PY pipeline.metric.sensitivity Q5COLLECT
+for s in NULLS LEN SHUF CARD; do $PY pipeline.metric.nulls_ablations "$s"; done
+for r in R1 R2 R3 R4 R5 R6; do $PY pipeline.metric.annotator_tiers "$r"; done
+$PY pipeline.metric.annotator_tiers COLLECT
+$PY pipeline.metric.jury
+$PY pipeline.metric.tie_robustness
 
-echo "=== 4. sensitivity ========================================"
-for q in Q1 Q2 Q3 Q4; do $PY 05_sensitivity_suite.py "$q"; done
-for r in R1 R2 R3 R4 R5 R6; do $PY 05_sensitivity_suite.py "Q5A:$r"; done
-$PY 05_sensitivity_suite.py Q5COLLECT
+echo "=== extensions ============================================="
+$PY pipeline.metric.multiturn
+$PY pipeline.metric.quality_matched
+$PY pipeline.metric.conformity
+$PY pipeline.metric.conformity_length_control
+$PY pipeline.metric.therapist_baseline
 
-echo "=== 5. nulls and ablations ================================"
-for s in NULLS LEN SHUF CARD; do $PY 06_null_ablation_suite.py "$s"; done
+echo "=== external corpora ======================================="
+$PY pipeline.external.anchors
+$PY pipeline.metric.ceiling_extrapolation
+$PY pipeline.external.empathy_tactics
+$PY pipeline.external.empathy_checks
+$PY pipeline.external.mint_surface_layer
+if [ -f out/derived/llm_span_events.csv ]; then $PY pipeline.external.listening; $PY pipeline.external.llm_agreement; $PY pipeline.metric.therapist_paired ALL; $PY pipeline.external.listening_extra; fi
 
-echo "=== 6. annotator checks ==================================="
-for r in R1 R2 R3 R4 R5 R6; do $PY 07_loao_tier_check.py "$r"; done
-$PY 07_loao_tier_check.py COLLECT
-$PY 10_jury_check.py
+echo "=== sequential testing ====================================="
+$PY pipeline.metric.betting_validity V1 --streams=200 --naive=60
+$PY pipeline.metric.betting_validity V2
+$PY pipeline.metric.betting_validity V3
+$PY pipeline.metric.betting_applications ALL
 
-echo "=== 7. contribution 3: anytime-valid testing by betting ==="
-$PY 15_betting_validity.py V1 --streams=200 --naive=60
-$PY 15_betting_validity.py V2
-$PY 15_betting_validity.py V3
-$PY 16_betting_applications.py ALL
+echo "=== sensitivity of the estimator and the extensions ========"
+$PY pipeline.metric.sensitivity_extra ALL
 
-echo "=== 8. extensions and anchors ============================="
-$PY 08_multiturn_extension.py
-$PY 09_quality_matched_check.py
-$PY 11_external_anchors.py
-$PY 12_therapist_baseline.py
-$PY 17_ceiling_extrapolation.py
-
-echo "=== 9. figures ============================================"
-$PY 13_figure_data.py
-for f in 20_fig_script_metric 21_fig_explanatory 22_fig_anatomy \
-         23_fig_five_scripts 24_fig_results_hero 25_fig_case_study \
-         26_fig_worked_example 27_fig_hero 28_fig_method_faithful \
-         29_fig_momentum 30_fig_multiturn 31_fig_null_validation \
-         32_fig_betting; do
-  $PY "$f.py"
+echo "=== figures ================================================"
+$PY pipeline.metric.figure_data
+for f in behaviour_overview behaviour_levels explanatory anatomy case_study worked_example \
+         method_faithful momentum multiturn null_validation betting; do
+  $PY "pipeline.figures.$f"
 done
+# the two results figures of the main text need the LLM-annotator layer
+if [ -f out/tables/listening_budget.csv ]; then $PY pipeline.figures.results_main; fi
+$PY pipeline.figures.results_closing
+
+echo "=== paper tables ==========================================="
+$PY pipeline.paper_tables
 
 echo
 echo "done. tables -> out/tables/   figures -> out/figures/"
