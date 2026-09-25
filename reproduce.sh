@@ -35,7 +35,7 @@ need_robust()    { [ -f out/tables/pairwise_tests.csv ] || {
 
 target() {
   case "$1" in
-    data)     run pipeline.data.get_data ;;
+    data)     run pipeline.data.get_data; run nltk.downloader -q punkt punkt_tab ;;
 
     # ---------------------------------------------------------------- main text
     table2)   need_events; run pipeline.metric.validate; need_llm; need_robust

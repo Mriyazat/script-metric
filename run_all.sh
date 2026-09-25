@@ -13,6 +13,7 @@ PY="${PYTHON:-python3} -m"
 
 echo "=== data ==================================================="
 $PY pipeline.data.get_data
+$PY nltk.downloader -q punkt punkt_tab      # Zhan et al.'s sentence split for Testbed 2
 
 echo "=== benchmark behaviour analysis ==========================="
 $PY pipeline.behaviour.attributes

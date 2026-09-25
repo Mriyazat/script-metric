@@ -32,6 +32,9 @@ try:
     from nltk.tokenize import sent_tokenize
     sent_tokenize("ok.")
 except Exception:                                   # fallback splitter, same as theirs in spirit
+    print("warning: nltk punkt not available; regex sentence split, Testbed 2 tagger-layer numbers "
+          "will differ slightly from the paper (python -m nltk.downloader punkt punkt_tab)", file=sys.stderr)
+
     def sent_tokenize(t):
         return [s for s in re.split(r"(?<=[.!?])\s+", t.strip()) if s]
 
