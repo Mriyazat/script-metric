@@ -33,7 +33,7 @@
 
 ## Setup
 
-<sub><i>Python 3.10+, two dependencies for the metric, four for the paper. No API key needed: the blind LLM annotation layer of Testbed 1 is included as an event file (labels and positions, no text) at</i> <code>data/llm_span_events.csv</code><i>; only the span-by-span agreement table of Appendix A needs the per-reply cache, which a DeepSeek key regenerates.</i></sub>
+<sub><i>Python 3.10+, two dependencies for the metric, five for the paper (the hand-built figures use a headless browser: an installed Google Chrome, or</i> <code>python -m playwright install chromium</code><i>). No API key needed: the blind LLM annotation layer of Testbed 1 is included as an event file (labels and positions, no text) at</i> <code>data/llm_span_events.csv</code><i>; only the span-by-span agreement table of Appendix A needs the per-reply cache, which a DeepSeek key regenerates.</i></sub>
 
 ```bash
 git clone https://github.com/Mriyazat/script-metric.git && cd script-metric
@@ -85,9 +85,11 @@ bash reproduce.sh data          # fetch and verify every input, once (~500 MB)
 
 ## Use SCRIPT on your own annotations
 
-<sub><i>A CSV with</i> `response_id`, `label`, `position` <i>(span start in [0, 1]).</i></sub>
+<sub><i>A CSV with</i> `response_id`, `label`, `position` <i>(span start in [0, 1]), one row per annotated span.</i> `examples/spans.csv` <i>is a ready-made example: 150 replies of one model under the 20-code manual.</i></sub>
 
 ```bash
+python -m scriptmetric.metric  score    examples/spans.csv      # SCRIPT, C, M and z for the example
+
 python -m scriptmetric.metric  score    spans.csv --shuffles 200 --bins 10 --profile out.json
 python -m scriptmetric.metric  score    spans.csv --ceiling
 python -m scriptmetric.metric  distance a.json b.json

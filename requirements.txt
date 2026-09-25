@@ -6,6 +6,10 @@ pandas>=2.0
 matplotlib>=3.7
 scipy>=1.10
 
+# The three hand-built figures (Figures 1, 2 and B.3) are rendered with a headless browser:
+# it uses an installed Google Chrome, or run once:  python -m playwright install chromium
+playwright>=1.40
+
 # Optional: nltk (punkt) reproduces Zhan et al.'s sentence split in
 # pipeline/external/empathy_checks.py; a regex splitter is used otherwise.
 # nltk>=3.8
