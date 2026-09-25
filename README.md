@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/script_header_light.png" width="100%" alt="Do LLMs Follow a Behavioral SCRIPT? Measuring Structural Choreography and Rigidity from Positions and Transitions">
+<img src="assets/script_title_header.png" width="100%" alt="Do LLMs Follow a Behavioral SCRIPT? Measuring Structural Choreography and Rigidity from Positions and Transitions">
 
 <br>
 
@@ -8,19 +8,19 @@
 
 <br>
 
-<img src="assets/figure1_method.png" width="100%" alt="Figure 1">
+<img src="assets/script_method_figure.png" width="100%" alt="Figure 1">
 
 <sub><i>Figure 1 of the paper: from one annotated response to the score and the profile. The response (gold) is followed through every step.</i></sub>
 
 <br><br>
 
-<img src="assets/figure2_results.png" width="100%" alt="Figure 2">
+<img src="assets/script_listening_figure.png" width="100%" alt="Figure 2">
 
 <sub><i>Figure 2: where each behaviour sits, turn by turn. Five models repeat the same positional script at every stage of a conversation; the human therapist answering the same user changes as the conversation goes on. Right: the models' behaviour shifts with an explicit safety cue, far less with the affective intensity of the message.</i></sub>
 
 <br><br>
 
-<img src="assets/figureB3_profile.png" width="100%" alt="Figure B.3">
+<img src="assets/script_profile_figure.png" width="100%" alt="Figure B.3">
 
 <sub><i>Figure B.3: tied scores, five profiles. Four of the five scores overlap; the profiles behind them name the model from a handful of annotated responses.</i></sub>
 
