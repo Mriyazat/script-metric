@@ -25,7 +25,8 @@ need_llm() {
 }
 need_listening() { need_llm; [ -f out/tables/listening_budget.csv ] || run pipeline.external.listening; }
 need_anchors()   { [ -f out/tables/anchor_wmt24.csv ] || run pipeline.external.anchors; }
-need_testbed2()  { [ -f out/tables/mint_systems.csv ] || run pipeline.external.empathy_checks
+need_testbed2()  { [ -f out/derived/empathy_tactic_events.csv ] || run pipeline.external.empathy_tactics
+                   [ -f out/tables/mint_systems.csv ] || run pipeline.external.empathy_checks
                    [ -f out/tables/mint_surface_layer.csv ] || run pipeline.external.mint_surface_layer; }
 need_robust()    { [ -f out/tables/pairwise_tests.csv ] || {
                      for c in 0:100 100:200 200:300 300:400; do run pipeline.metric.robustness "BOOT:$c"; done
