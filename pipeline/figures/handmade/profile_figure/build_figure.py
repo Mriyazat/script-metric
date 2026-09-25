@@ -17,9 +17,8 @@ from collections import defaultdict
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-PAPER = HERE.parent.parent
-OUT = PAPER / 'script-metric' / 'out'
-METHOD = PAPER / 'figures' / 'script_method_figure'
+OUT = HERE.parents[3] / 'out'
+METHOD = HERE.parent / 'main_figures'
 
 NUM = json.loads((OUT / 'tables/latex/numbers.json').read_text())
 PROFILES = json.loads((METHOD / 'data/profiles.json').read_text())      # P (20x10), T (20x20) per model
@@ -507,9 +506,9 @@ def build():
 </div>
 <script>{ARROWS_JS}</script>
 </body></html>"""
-    (HERE / 'script_profile_figure.html').write_text(page)
+    return page
 
 
 if __name__ == '__main__':
-    build()
-    print('wrote script_profile_figure.html')
+    from export_figure import render
+    render(build())

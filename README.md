@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/script_header_light.png" width="100%" alt="SCRIPT — measuring behavioural scriptedness from span annotations">
+<img src="assets/script_header_light.png" width="100%" alt="Do LLMs Follow a Behavioral SCRIPT? Measuring Structural Choreography and Rigidity from Positions and Transitions">
 
 <br>
 
@@ -10,13 +10,13 @@
 
 <img src="assets/figure1_method.png" width="100%" alt="Figure 1">
 
-<sub><i>Figure 1 of the paper: from one annotated response to the score and the profile.</i></sub>
+<sub><i>Figure 1 of the paper: from one annotated response to the score and the profile. The response (gold) is followed through every step.</i></sub>
 
 <br><br>
 
 <img src="assets/figure2_results.png" width="100%" alt="Figure 2">
 
-<sub><i>Figure 2: the same response, ten times. Five models place the same behaviours in the same seats at every turn of a conversation; the human therapist answering the same user does not. Right: what moves the models is what the person states, not what the person feels.</i></sub>
+<sub><i>Figure 2: where each behaviour sits, turn by turn. Five models repeat the same positional script at every stage of a conversation; the human therapist answering the same user changes as the conversation goes on. Right: the models' behaviour shifts with an explicit safety cue, far less with the affective intensity of the message.</i></sub>
 
 <br><br>
 

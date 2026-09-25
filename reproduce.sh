@@ -45,10 +45,11 @@ target() {
     table4)   need_events; need_testbed2; run pipeline.metric.conformity; run pipeline.metric.conformity_length_control
               echo "→ out/tables/conformity_tb2_pairs_own.csv  conformity_tb1_pairs_own.csv  conformity_length_control.csv"
               echo "→ out/tables/mint_systems.csv  mint_surface_layer.csv" ;;
-    fig1)     ( cd pipeline/figures/handmade/method_figure && python3 build_figure.py && python3 export_figure.py )
-              echo "→ pipeline/figures/handmade/method_figure/script_method_figure.png" ;;
-    fig2)     need_events; need_listening; run pipeline.figures.results_main
-              echo "→ out/figures/fig_results_main.png" ;;
+    fig1)     ( cd pipeline/figures/handmade/main_figures && python3 build_method_figure.py )
+              echo "→ out/figures/script_method_figure.png" ;;
+    fig2)     need_events; need_listening
+              ( cd pipeline/figures/handmade/main_figures && python3 build_listening_figure.py )
+              echo "→ out/figures/script_listening_figure.png" ;;
     fig3)     need_events; run pipeline.metric.identification; run pipeline.metric.identification_baselines
               need_anchors; run pipeline.figures.results_closing
               echo "→ out/figures/fig_results_closing.png  out/tables/identification_curves.csv  identification_baselines.csv" ;;
@@ -71,9 +72,9 @@ target() {
               echo "→ out/tables/mint_systems.csv  regex_under_null.csv  stickiness_decomposed.csv  anchor_empathy_tactics.csv" ;;
     B4)       need_events; run pipeline.metric.identification; run pipeline.metric.identification_baselines
               run pipeline.metric.profiles; run pipeline.metric.figure_data; run pipeline.figures.case_study
-              ( cd pipeline/figures/handmade/profile_figure && python3 build_figure.py && python3 export_figure.py )
+              ( cd pipeline/figures/handmade/profile_figure && python3 build_figure.py )
               echo "→ out/tables/identification_*.csv  twin_structure_by_corpus.csv  out/derived/js_fingerprint_distance.csv"
-              echo "→ out/figures/fig_transition_lift.png  fig_case_study.png  pipeline/figures/handmade/profile_figure/script_profile_figure.png" ;;
+              echo "→ out/figures/fig_transition_lift.png  fig_case_study.png  script_profile_figure.png" ;;
     B5)       need_events; need_robust
               for s in NULLS LEN SHUF CARD; do run pipeline.metric.nulls_ablations "$s"; done
               for r in R1 R2 R3 R4 R5 R6; do run pipeline.metric.annotator_tiers "$r"; done

@@ -71,8 +71,10 @@ for f in behaviour_overview behaviour_levels explanatory anatomy case_study work
          method_faithful momentum multiturn null_validation betting; do
   $PY "pipeline.figures.$f"
 done
-# the two results figures of the main text need the LLM-annotator layer
-if [ -f out/tables/listening_budget.csv ]; then $PY pipeline.figures.results_main; fi
+# Figure 2 (hand-built) needs the LLM-annotator layer
+if [ -f out/tables/listening_budget.csv ]; then
+  ( cd pipeline/figures/handmade/main_figures && "${PYTHON:-python3}" build_listening_figure.py )
+fi
 $PY pipeline.figures.results_closing
 
 echo "=== paper tables ==========================================="

@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SCRIPT: measuring behavioural scriptedness from span annotations</title>
+<title>Do LLMs Follow a Behavioral SCRIPT? Measuring Structural Choreography and Rigidity from Positions and Transitions</title>
 <meta name="description" content="SCRIPT is a reference-free, chance-calibrated measure of how much of a reply's behaviour was fixed by where it sits and what came before, rather than by the person it answers.">
-<meta property="og:title" content="SCRIPT: measuring behavioural scriptedness from span annotations">
+<meta property="og:title" content="Do LLMs Follow a Behavioral SCRIPT? Measuring Structural Choreography and Rigidity from Positions and Transitions">
 <meta property="og:description" content="How much of a reply was decided before the person was read.">
 <meta property="og:image" content="https://mriyazat.github.io/script-metric/assets/figure1_method.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -233,7 +233,8 @@ footer a{color:var(--ink2)}
   <div class="sub">SCRIPT · Structural Choreography &amp; Rigidity Index from Positions and Transitions</div>
   <div class="grid">
   <div>
-    <h1>Measuring behavioural scriptedness <em>from span annotations</em></h1>
+    <h1>Do LLMs follow a behavioral <em>SCRIPT</em>?</h1>
+    <p style="font-family:Fraunces,Georgia,serif;font-style:italic;font-size:1.3em;margin:-6px 0 18px">Measuring Structural Choreography and Rigidity from Positions and Transitions</p>
     <p>Most evaluation asks how good a reply is. <b>SCRIPT</b> asks how much of it was decided before the person was read.</p>
     <div class="btns">
       <a class="btn dark" href="#example">Walk through one reply</a>
@@ -280,7 +281,7 @@ footer a{color:var(--ink2)}
 
   <div class="figure">
     <img src="assets/figure1_method.png" alt="Figure 1: from one annotated response to the score and the profile" loading="lazy">
-    <div class="cap"><b>Figure 1.</b> From one annotated response to the score and the profile: highlights become events, events pool into two count tables, the tables are read against a matched null, and the same tables identify the model.</div>
+    <div class="cap"><b>Figure 1.</b> From one annotated response to the score and the profile: highlights become events, events pool into two count tables, the tables are read against shuffled responses, and the same tables identify the model. The response (gold) is followed through every step.</div>
   </div>
 </div></section>
 
@@ -291,8 +292,8 @@ footer a{color:var(--ink2)}
   <p class="lede">Testbed 1: 819 counselling prompts, five models and one therapist, every reply span-coded under a 20-code clinical manual. Testbed 2: 22 emotional-support systems and their expert quality judge.</p>
 
   <div class="figure" style="background:var(--bg)">
-    <img src="assets/figure2_results.png" alt="Figure 2: the same response, ten times" loading="lazy">
-    <div class="cap"><b>Figure 2.</b> The same response, ten times. Five models place the same behaviours in the same seats at every turn of a conversation; the therapist answering the same user does not. Right: what moves the models is what the person <i>states</i>, not what the person <i>feels</i>.</div>
+    <img src="assets/figure2_results.png" alt="Figure 2: where each behaviour sits, turn by turn" loading="lazy">
+    <div class="cap"><b>Figure 2.</b> Where each behaviour sits, turn by turn. Five models repeat the same positional script at every stage of a conversation; the therapist answering the same user changes as the conversation goes on. Right: the models' behaviour shifts with an explicit safety cue, far less with the affective intensity of the message.</div>
   </div>
 
   <div class="stats">
