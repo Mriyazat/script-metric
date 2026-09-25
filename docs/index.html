@@ -34,6 +34,10 @@ section{padding:88px 0}
 h2{font-family:Fraunces,Georgia,serif;font-weight:500;font-size:clamp(28px,3.4vw,42px);line-height:1.1;letter-spacing:-.015em;margin:0 0 14px;text-wrap:balance}
 .lede{font-size:18px;color:var(--ink2);max-width:62ch;margin:0 0 36px}
 .lede b{color:var(--ink);font-weight:600}
+.oneline{font-style:italic;font-size:clamp(22px,2.3vw,31px)}
+@media (min-width:900px){.oneline{white-space:nowrap}}
+.lede.just{font-style:italic;max-width:none}
+p,.cap,.dek,.note{text-align:justify;-webkit-hyphens:auto;hyphens:auto;text-wrap:pretty}
 .card{background:var(--card);border:1px solid var(--hair);border-radius:var(--r);padding:22px 24px}
 .cap{font-size:13.5px;color:var(--mute);line-height:1.5;margin-top:12px}
 .cap b{color:var(--ink2);font-weight:600}
@@ -235,7 +239,7 @@ footer a{color:var(--ink2)}
   <div>
     <h1>Do LLMs follow a behavioral <em>SCRIPT</em>?</h1>
     <p style="font-family:Fraunces,Georgia,serif;font-style:italic;font-size:1.3em;margin:-6px 0 18px">Measuring Structural Choreography and Rigidity from Positions and Transitions</p>
-    <p>Most evaluation asks how good a reply is. <b>SCRIPT</b> asks how much of it was decided before the person was read.</p>
+    <p style="font-style:italic">Most evaluation asks how good a reply is. <b>SCRIPT</b> asks how much of it was decided before the person was read.</p>
     <div class="btns">
       <a class="btn dark" href="#example">Walk through one reply</a>
       <a class="btn ghost" href="https://github.com/Mriyazat/script-metric">Code</a>
@@ -249,8 +253,8 @@ footer a{color:var(--ink2)}
 <!-- ================================================================ idea -->
 <section id="idea"><div class="wrap">
   <div class="eyebrow">the idea</div>
-  <h2>Place a hundred replies to a hundred different people side by side.</h2>
-  <p class="lede">If they show the same moves, in the same order, at the same places, the shape of the reply was brought to the conversation rather than found in it. <b>SCRIPT turns that into a number with a meaningful zero.</b></p>
+  <h2 class="oneline">Place a hundred replies to a hundred different people side by side.</h2>
+  <p class="lede just">If they show the same moves, in the same order, at the same places, the shape of the reply was brought to the conversation rather than found in it. <b>SCRIPT turns that into a number with a meaningful zero.</b></p>
 
   <div class="flow">
     <div class="card">
@@ -289,7 +293,7 @@ footer a{color:var(--ink2)}
 <section id="results" style="background:#fff;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)"><div class="wrap">
   <div class="eyebrow">what we found</div>
   <h2>Five frontier models share one choreography. The human answering the same people does not.</h2>
-  <p class="lede">Testbed 1: 819 counselling prompts, five models and one therapist, every reply span-coded under a 20-code clinical manual. Testbed 2: 22 emotional-support systems and their expert quality judge.</p>
+  <p class="lede just">Testbed 1: 819 counselling prompts, five models and one therapist, every reply span-coded under a 20-code clinical manual.<br>Testbed 2: 22 emotional-support systems and their expert quality judge.</p>
 
   <div class="figure" style="background:var(--bg)">
     <img src="assets/figure2_results.png" alt="Figure 2: where each behaviour sits, turn by turn" loading="lazy">
