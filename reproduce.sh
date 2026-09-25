@@ -67,8 +67,12 @@ target() {
               need_anchors; need_testbed2; run pipeline.external.empathy_tactics
               echo "→ out/tables/therapist_llm_ceiling.csv  therapist_density_matched.csv  therapist_baseline.csv  anchor_empathy_tactics.csv" ;;
     B2)       need_events; need_listening; run pipeline.external.listening_extra; run pipeline.metric.multiturn
-              echo "→ out/tables/listening_*.csv  seat_strength.csv  script_by_turn.csv  multiturn_extension.csv  out/figures/fig_multiturn.png" ;;
-    B3)       need_events; need_testbed2; run pipeline.external.empathy_tactics
+              run pipeline.figures.multiturn; run pipeline.figures.anatomy
+              echo "→ out/tables/listening_*.csv  seat_strength.csv  script_by_turn.csv  multiturn_extension.csv"
+              echo "→ out/figures/fig_multiturn.png  fig_anatomy.png" ;;
+    B3)       need_events; need_testbed2; run pipeline.metric.conformity; run pipeline.metric.conformity_length_control
+              run pipeline.external.empathy_tactics
+              echo "→ out/tables/conformity_*.csv  conformity_length_control.csv"
               echo "→ out/tables/mint_systems.csv  regex_under_null.csv  stickiness_decomposed.csv  anchor_empathy_tactics.csv" ;;
     B4)       need_events; run pipeline.metric.identification; run pipeline.metric.identification_baselines
               run pipeline.metric.profiles; run pipeline.metric.figure_data; run pipeline.figures.case_study
@@ -79,11 +83,17 @@ target() {
               for s in NULLS LEN SHUF CARD; do run pipeline.metric.nulls_ablations "$s"; done
               for r in R1 R2 R3 R4 R5 R6; do run pipeline.metric.annotator_tiers "$r"; done
               run pipeline.metric.annotator_tiers COLLECT; run pipeline.metric.jury; need_anchors
-              echo "→ out/tables/bootstrap_ci.csv  alternative_nulls.csv  length_terciles.csv  jury_scripts.csv  loao_tier_gap.csv  anchor_propaganda.csv" ;;
+              # the evidence ladder reads the therapist baseline, the sample-size curve and the matched-quality table
+              need_llm; [ -f out/tables/therapist_baseline.csv ] || run pipeline.metric.therapist_baseline
+              [ -f out/tables/sample_size_curve.csv ] || run pipeline.metric.sensitivity Q4
+              [ -f out/tables/quality_matched.csv ] || { need_testbed2; run pipeline.metric.quality_matched; }
+              run pipeline.figures.explanatory
+              echo "→ out/tables/bootstrap_ci.csv  alternative_nulls.csv  length_terciles.csv  jury_scripts.csv  loao_tier_gap.csv  anchor_propaganda.csv"
+              echo "→ out/figures/fig_evidence_ladder.png" ;;
     C1)       need_events; run pipeline.metric.tie_robustness; run pipeline.metric.figure_data; run pipeline.figures.momentum
               echo "→ out/tables/tie_robustness.csv  out/figures/fig_momentum.png" ;;
-    C2)       need_events; run pipeline.metric.validate; run pipeline.figures.null_validation; run pipeline.figures.anatomy
-              echo "→ out/tables/null_validation.csv  out/figures/fig_null_validation.png  fig_anatomy.png" ;;
+    C2)       need_events; run pipeline.metric.validate; run pipeline.figures.null_validation
+              echo "→ out/tables/null_validation.csv  out/figures/fig_null_validation.png" ;;
     C3)       need_events; need_llm; need_testbed2
               for q in Q1 Q2 Q3 Q4; do run pipeline.metric.sensitivity "$q"; done
               for r in R1 R2 R3 R4 R5 R6; do run pipeline.metric.sensitivity "Q5A:$r"; done
@@ -94,8 +104,8 @@ target() {
     C5)       need_events; need_anchors
               run pipeline.metric.betting_validity V1 --streams=200 --naive=60
               run pipeline.metric.betting_validity V2; run pipeline.metric.betting_validity V3
-              run pipeline.metric.betting_applications ALL; run pipeline.figures.betting; run pipeline.figures.explanatory
-              echo "→ out/tables/betting_*.csv  reviewer_qs/q7_*.csv  out/figures/fig_betting.png  fig_evidence_ladder.png" ;;
+              run pipeline.metric.betting_applications ALL; run pipeline.figures.betting
+              echo "→ out/tables/betting_*.csv  reviewer_qs/q7_*.csv  out/figures/fig_betting.png" ;;
     C6)       need_events; need_testbed2; run pipeline.metric.conformity; run pipeline.metric.quality_matched
               echo "→ out/tables/conformity_*.csv  conformity_summary.json  quality_matched.csv" ;;
     D)        run pipeline.behaviour.attributes; run pipeline.behaviour.spans; run pipeline.behaviour.therapist

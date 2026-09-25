@@ -54,7 +54,7 @@ bash reproduce.sh data          # fetch and verify every input, once (~500 MB)
 <tr><td><img src="https://img.shields.io/badge/Table%204-%C2%A75.3-26323a?style=flat-square" alt="Table 4"></td><td><code>bash reproduce.sh table4</code></td></tr>
 <tr><td><img src="https://img.shields.io/badge/Figure%201-%C2%A73-3d6fae?style=flat-square" alt="Figure 1"></td><td><code>bash reproduce.sh fig1</code></td></tr>
 <tr><td><img src="https://img.shields.io/badge/Figure%202-%C2%A75.1%E2%80%935.2-3d6fae?style=flat-square" alt="Figure 2"></td><td><code>bash reproduce.sh fig2</code></td></tr>
-<tr><td><img src="https://img.shields.io/badge/Figure%203-%C2%A75.4-3d6fae?style=flat-square" alt="Figure 3"></td><td><code>bash reproduce.sh fig3</code></td></tr>
+<tr><td><img src="https://img.shields.io/badge/Figure%203-%C2%A75.3-3d6fae?style=flat-square" alt="Figure 3"></td><td><code>bash reproduce.sh fig3</code></td></tr>
 <tr><td><img src="https://img.shields.io/badge/all%20numbers%20in%20the%20prose-%C2%A75-8e5bb5?style=flat-square" alt="numbers"></td><td><code>bash reproduce.sh numbers</code></td></tr>
 <tr><td><img src="https://img.shields.io/badge/everything%20above-%C2%A75-2a9d8f?style=flat-square" alt="main"></td><td><code>bash reproduce.sh main</code></td></tr>
 <tr><td><img src="https://img.shields.io/badge/worked%20example-project%20page-e9a400?style=flat-square" alt="example"></td><td><code>bash reproduce.sh example</code></td></tr>
