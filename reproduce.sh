@@ -3,7 +3,8 @@
 #
 #   bash reproduce.sh data              download and verify the inputs (once)
 #   bash reproduce.sh table2            one main-text item ...
-#   bash reproduce.sh main              ... or all of Section 5 (Tables 2-4, Figures 2-3)
+#   bash reproduce.sh main              ... or all main-text tables and figures (Tables 2-4, Figures 1-3)
+#   bash reproduce.sh numbers           every number quoted in the prose (runs the appendix targets too)
 #   bash reproduce.sh appendix          every appendix table and figure
 #   bash reproduce.sh B2                one appendix section (A .. D, B1 .. B5, C1 .. C6)
 #   bash reproduce.sh example           the worked example of the project page (docs/)
@@ -12,7 +13,7 @@
 # Outputs go to out/tables/ and out/figures/. Targets that need the blind LLM
 # re-annotation (Table 2's LLM block, Table 3, Figure 2, B1, B2) read the shipped
 # event file data/llm_span_events.csv and need no API key. Only the span-by-span
-# agreement table of Appendix A needs the per-reply cache (an API key regenerates it).
+# agreement table of Appendix A ships in data/; the per-reply cache (an API key) regenerates it.
 set -euo pipefail
 cd "$(dirname "$0")"
 PY="${PYTHON:-python3} -m"
@@ -52,17 +53,21 @@ target() {
               ( cd pipeline/figures/handmade/main_figures && python3 build_listening_figure.py )
               echo "→ out/figures/script_listening_figure.png" ;;
     fig3)     need_events; run pipeline.metric.identification; run pipeline.metric.identification_baselines
-              need_anchors; run pipeline.figures.results_closing
+              need_anchors; [ -f out/tables/matched_ceiling.csv ] || run pipeline.metric.ceiling_extrapolation
+              run pipeline.figures.results_closing
               echo "→ out/figures/fig_results_closing.png  out/tables/identification_curves.csv  identification_baselines.csv" ;;
-    numbers)  run pipeline.paper_tables; echo "→ out/tables/latex/numbers.json  (every number quoted in the prose)" ;;
-    main)     for t in table2 table3 table4 fig2 fig3 numbers; do target $t; done ;;
+    numbers)  # every number quoted in the prose; it reads the tables of the main text and of the appendix
+              for t in table2 table3 table4 fig3 A B1 B2 B3 B4 B5 C1 C2 C3 C4 C5 C6; do target $t; done
+              run pipeline.paper_tables; echo "→ out/tables/latex/numbers.json  (every number quoted in the prose)" ;;
+    main)     for t in table2 table3 table4 fig1 fig2 fig3; do target $t; done ;;
     example)  need_events; run pipeline.figures.web_example
               echo "→ docs/example.json  (the worked example of the project page, docs/index.html)" ;;
 
     # ---------------------------------------------------------------- appendix
     A)        need_llm; need_anchors
               if [ -d out/derived/llm_annotator ]; then run pipeline.external.llm_agreement;
-              else echo "(agreement table skipped: needs the per-reply annotator cache; see README)"; fi
+              else mkdir -p out/tables; cp data/llm_agreement.csv data/llm_agreement_summary.csv out/tables/
+                   echo "(agreement table copied from data/; regenerating it needs the per-reply annotator cache, see README)"; fi
               echo "→ out/tables/llm_agreement*.csv  external_anchors.csv" ;;
     B1)       need_events; need_llm; run pipeline.metric.therapist_paired ALL; run pipeline.metric.therapist_baseline
               need_anchors; need_testbed2; run pipeline.external.empathy_tactics
@@ -116,10 +121,10 @@ target() {
     appendix) for t in A B1 B2 B3 B4 B5 C1 C2 C3 C4 C5 C6 D; do target $t; done ;;
 
     figures)  bash paper_figures.sh "${2:-../figures}" ;;
-    list)     sed -n '2,13p' "$0" ;;
+    list)     sed -n '2,14p' "$0" ;;
     *)        echo "unknown target '$1'; try: bash reproduce.sh list" >&2; exit 1 ;;
   esac
 }
 
-[ $# -ge 1 ] || { sed -n '2,13p' "$0"; exit 0; }
+[ $# -ge 1 ] || { sed -n '2,14p' "$0"; exit 0; }
 for t in "$@"; do target "$t"; done

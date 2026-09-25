@@ -33,7 +33,7 @@
 
 ## Setup
 
-<sub><i>Python 3.10+, two dependencies for the metric, five for the paper (the hand-built figures use a headless browser: an installed Google Chrome, or</i> <code>python -m playwright install chromium</code><i>). No API key needed: the blind LLM annotation layer of Testbed 1 is included as an event file (labels and positions, no text) at</i> <code>data/llm_span_events.csv</code><i>; only the span-by-span agreement table of Appendix A needs the per-reply cache, which a DeepSeek key regenerates.</i></sub>
+<sub><i>Python 3.10+, two dependencies for the metric, five for the paper (the hand-built figures use a headless browser: an installed Google Chrome, or</i> <code>python -m playwright install chromium</code><i>). No API key needed: the blind LLM annotation layer of Testbed 1 is included as an event file (labels and positions, no text) at</i> <code>data/llm_span_events.csv</code><i>; the span-by-span agreement table of Appendix A ships as its result in</i> <code>data/</code><i>, and only regenerating it from scratch needs the per-reply cache, which a DeepSeek key rebuilds.</i></sub>
 
 ```bash
 git clone https://github.com/Mriyazat/script-metric.git && cd script-metric
@@ -55,8 +55,8 @@ bash reproduce.sh data          # fetch and verify every input, once (~500 MB)
 <tr><td><img src="https://img.shields.io/badge/Figure%201-%C2%A73-3d6fae?style=flat-square" alt="Figure 1"></td><td><code>bash reproduce.sh fig1</code></td></tr>
 <tr><td><img src="https://img.shields.io/badge/Figure%202-%C2%A75.1%E2%80%935.2-3d6fae?style=flat-square" alt="Figure 2"></td><td><code>bash reproduce.sh fig2</code></td></tr>
 <tr><td><img src="https://img.shields.io/badge/Figure%203-%C2%A75.3-3d6fae?style=flat-square" alt="Figure 3"></td><td><code>bash reproduce.sh fig3</code></td></tr>
-<tr><td><img src="https://img.shields.io/badge/all%20numbers%20in%20the%20prose-%C2%A75-8e5bb5?style=flat-square" alt="numbers"></td><td><code>bash reproduce.sh numbers</code></td></tr>
-<tr><td><img src="https://img.shields.io/badge/everything%20above-%C2%A75-2a9d8f?style=flat-square" alt="main"></td><td><code>bash reproduce.sh main</code></td></tr>
+<tr><td><img src="https://img.shields.io/badge/all%20tables%20and%20figures%20above-%C2%A73%E2%80%935-2a9d8f?style=flat-square" alt="main"></td><td><code>bash reproduce.sh main</code></td></tr>
+<tr><td><img src="https://img.shields.io/badge/all%20numbers%20in%20the%20prose-runs%20the%20appendix%20too-8e5bb5?style=flat-square" alt="numbers"></td><td><code>bash reproduce.sh numbers</code></td></tr>
 <tr><td><img src="https://img.shields.io/badge/worked%20example-project%20page-e9a400?style=flat-square" alt="example"></td><td><code>bash reproduce.sh example</code></td></tr>
 </table>
 

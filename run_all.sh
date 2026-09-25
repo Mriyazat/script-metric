@@ -54,7 +54,12 @@ $PY pipeline.metric.ceiling_extrapolation
 $PY pipeline.external.empathy_tactics
 $PY pipeline.external.empathy_checks
 $PY pipeline.external.mint_surface_layer
-if [ -f out/derived/llm_span_events.csv ]; then $PY pipeline.external.listening; $PY pipeline.external.llm_agreement; $PY pipeline.metric.therapist_paired ALL; $PY pipeline.external.listening_extra; fi
+$PY pipeline.external.llm_layer_from_events      # the blind LLM layer, shipped as data/llm_span_events.csv
+$PY pipeline.external.listening
+if [ -d out/derived/llm_annotator ]; then $PY pipeline.external.llm_agreement
+else cp data/llm_agreement.csv data/llm_agreement_summary.csv out/tables/; fi
+$PY pipeline.metric.therapist_paired ALL
+$PY pipeline.external.listening_extra
 
 echo "=== sequential testing ====================================="
 $PY pipeline.metric.betting_validity V1 --streams=200 --naive=60
