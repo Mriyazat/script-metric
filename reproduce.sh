@@ -81,7 +81,12 @@ target() {
               echo "→ out/tables/conformity_*.csv  conformity_length_control.csv"
               echo "→ out/tables/mint_systems.csv  regex_under_null.csv  stickiness_decomposed.csv  anchor_empathy_tactics.csv" ;;
     B4)       need_events; run pipeline.metric.identification; run pipeline.metric.identification_baselines
-              run pipeline.metric.profiles; run pipeline.metric.figure_data; run pipeline.figures.case_study
+              run pipeline.metric.profiles; run pipeline.metric.figure_data
+              # the per-model rank-1 column of the profile table is read from this log
+              mkdir -p out/logs; echo; echo "▶ pipeline.figures.case_study"
+              $PY pipeline.figures.case_study | tee out/logs/30_fig_case_study.txt
+              [ -f out/derived/validation_results.csv ] || run pipeline.metric.validate; need_robust
+              [ -f out/tables/reviewer_qs/q8_summary.json ] || { need_testbed2; run pipeline.metric.sensitivity_extra PROFILES; }
               ( cd pipeline/figures/handmade/profile_figure && python3 build_figure.py )
               echo "→ out/tables/identification_*.csv  twin_structure_by_corpus.csv  out/derived/js_fingerprint_distance.csv"
               echo "→ out/figures/fig_transition_lift.png  fig_case_study.png  script_profile_figure.png" ;;

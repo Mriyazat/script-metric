@@ -20,7 +20,6 @@ HERE = Path(__file__).resolve().parent
 OUT = HERE.parents[3] / 'out'
 METHOD = HERE.parent / 'main_figures'
 
-NUM = json.loads((OUT / 'tables/latex/numbers.json').read_text())
 PROFILES = json.loads((METHOD / 'data/profiles.json').read_text())      # P (20x10), T (20x20) per model
 R = json.loads((METHOD / 'data/response.json').read_text())             # label order + family
 LABELS, FAMILY = R['labels'], dict(zip(R['labels'], R['family']))
@@ -29,6 +28,13 @@ LABELS, FAMILY = R['labels'], dict(zip(R['labels'], R['family']))
 def read_csv(path):
     with open(path, newline='') as f:
         return list(csv.DictReader(f))
+
+
+# pooled clinician-layer score of each model and its bootstrap 95% interval
+SCORE = {r['system']: float(r['SCRIPT']) for r in read_csv(OUT / 'derived/validation_results.csv')}
+BOOT = {r['model']: dict(half_lo=float(r['SCRIPT_mean']) - float(r['SCRIPT_lo']),
+                         half_hi=float(r['SCRIPT_hi']) - float(r['SCRIPT_mean']))
+        for r in read_csv(OUT / 'tables/bootstrap_ci.csv')}
 
 
 # STYLE (shared with the method figure)
@@ -87,7 +93,7 @@ def panel_a():
     x0, x1 = 28, W - 16
     lo, hi = 0.06, 0.14
     X = lambda v: x0 + (x1 - x0) * (v - lo) / (hi - lo)
-    order = sorted(MODELS, key=lambda m: NUM['testbed1'][m]['SCRIPT'])
+    order = sorted(MODELS, key=lambda m: SCORE[m])
     row_h, top = 30, 26
     o = []
     # axis
@@ -104,8 +110,8 @@ def panel_a():
     o.append(f'<path d="M{bx - 5} {min(ys) - 8} H{bx} V{max(ys) + 8} H{bx - 5}" fill="none" stroke="{MUTE}" stroke-width="1.2"/>')
     for i, m in enumerate(order):
         y = top + i * row_h + row_h / 2
-        v = NUM['testbed1'][m]['SCRIPT']
-        b = NUM['bootstrap'][m]
+        v = SCORE[m]
+        b = BOOT[m]
         c = MODEL_COLOR[m]
         o.append(f'<line x1="{X(v - b["half_lo"]):.1f}" y1="{y}" x2="{X(v + b["half_hi"]):.1f}" y2="{y}" stroke="{c}" stroke-width="2.4" stroke-linecap="round"/>'
                  f'<circle cx="{X(v):.1f}" cy="{y}" r="5" fill="{c}"/>'

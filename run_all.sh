@@ -73,10 +73,12 @@ $PY pipeline.metric.sensitivity_extra ALL
 
 echo "=== figures ================================================"
 $PY pipeline.metric.figure_data
-for f in behaviour_overview behaviour_levels explanatory anatomy case_study worked_example \
+for f in behaviour_overview behaviour_levels explanatory anatomy worked_example \
          method_faithful momentum multiturn null_validation betting; do
   $PY "pipeline.figures.$f"
 done
+# the per-model rank-1 column of the profile table is read from this log
+mkdir -p out/logs && $PY pipeline.figures.case_study | tee out/logs/30_fig_case_study.txt
 # Figure 2 (hand-built) needs the LLM-annotator layer
 if [ -f out/tables/listening_budget.csv ]; then
   ( cd pipeline/figures/handmade/main_figures && "${PYTHON:-python3}" build_listening_figure.py )
