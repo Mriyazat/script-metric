@@ -393,7 +393,9 @@ bash reproduce.sh data
 <span class="c">#     (pipeline/figures/web_example.py → docs/example.json)</span>
 bash reproduce.sh example</pre>
       <div class="cap" style="margin-top:14px">Your own annotations: a CSV with <span class="mono">response_id, label, position</span>.</div>
-<pre style="margin-top:8px"><span class="c"># the estimator on any span file</span>
+<pre style="margin-top:8px"><span class="c"># a ready-made example: 150 replies of one model</span>
+python -m scriptmetric.metric score examples/spans.csv
+<span class="c"># the estimator on any span file</span>
 python -m scriptmetric.metric score spans.csv --profile out.json
 <span class="c"># or, in Python</span>
 <span class="k">from</span> scriptmetric <span class="k">import</span> metric
