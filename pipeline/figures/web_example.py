@@ -7,7 +7,7 @@ transitions -> the system's pooled count tables -> the two terms in bits -> the
 within-response shuffle null -> SCRIPT, z, and the fraction of the matched ceiling
 -> the same response scored under the five enrolled profiles.
 
-Writes docs/example.json and refreshes the inline copy inside docs/index.html
+Writes docs/example.json and refreshes the inline copy inside docs/project.html
 (between the <script id="D"> tags), so the website shows exactly what this
 script computes.  Usage: python -m pipeline.figures.web_example
 """
@@ -200,7 +200,7 @@ D = dict(
 
 DOCS.mkdir(exist_ok=True)
 (DOCS / "example.json").write_text(json.dumps(D))
-index = DOCS / "index.html"
+index = DOCS / "project.html"
 if index.exists():
     html = index.read_text()
     new, n = re.subn(r'(<script id="D" type="application/json">).*?(</script>)',
@@ -216,4 +216,4 @@ print(f"SCRIPT = {score['SCRIPT']:.4f}  z = {score['z']}  C excess = {score['C_e
       f"M excess = {score['M_excess']:.4f}  ceiling = {ceiling:.4f}  fraction = {D['score']['frac']:.3f}")
 print("log-likelihood under each enrolled profile:",
       {m: attrib[m]["loglik"] for m in MODELS}, "-> points to", best)
-print(f"wrote {DOCS / 'example.json'}" + (" and refreshed docs/index.html" if index.exists() else ""))
+print(f"wrote {DOCS / 'example.json'}" + (" and refreshed docs/project.html" if index.exists() else ""))

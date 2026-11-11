@@ -61,7 +61,7 @@ target() {
               run pipeline.paper_tables; echo "→ out/tables/latex/numbers.json  (every number quoted in the prose)" ;;
     main)     for t in table2 table3 table4 fig1 fig2 fig3; do target $t; done ;;
     example)  need_events; run pipeline.figures.web_example
-              echo "→ docs/example.json  (the worked example of the project page, docs/index.html)" ;;
+              echo "→ docs/example.json  (the worked example of the project page, docs/project.html)" ;;
 
     # ---------------------------------------------------------------- appendix
     A)        need_llm; need_anchors

@@ -4,7 +4,9 @@
 
 <br>
 
-<a href="https://mriyazat.github.io/script-metric/"><b>Project page</b></a> — the idea, the main results, and one reply taken through the metric step by step.
+<a href="https://mriyazat.github.io/script-metric/"><b>Step by step</b></a> — an interactive walkthrough of SCRIPT on real counselling data.
+·
+<a href="https://mriyazat.github.io/script-metric/project.html"><b>Project page</b></a> — the idea, the main results, and one reply taken through the metric.
 
 <br>
 
