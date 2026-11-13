@@ -234,7 +234,7 @@ svg text{font-family:var(--mono);fill:var(--muted);font-size:11px}
   <div class="story">
     <div class="kicker">Chapter 2 · Real data</div>
     <h2>Pick a real conversation</h2>
-    <p>Everything here comes from the <b>Cognitive Atrophy Benchmark</b>: 819 messages from people seeking emotional support. Five AI models answered every message, giving <b>4,095 replies</b>. A human therapist answered the same messages.</p>
+    <p>Everything here comes from the <b>Cognitive Atrophy Benchmark</b>: 819 counselling messages from four datasets. Five AI models answered every message, giving <b>4,095 replies</b>. A human therapist answered 789 of the same messages.</p>
     <div class="lab">1 · Type of conversation</div>
     <div class="seg" id="modeSeg" role="group" aria-label="Conversation type"><button data-m="single">One message</button><button data-m="multi">Ongoing, 10 turns</button></div>
     <p class="soft" id="modeNote"></p>
@@ -358,8 +358,8 @@ svg text{font-family:var(--mono);fill:var(--muted);font-size:11px}
     <div class="kicker">Chapter 8 · Result 1</div>
     <h2>All five models follow a script</h2>
     <div class="find">
-      <div><span>1</span><p>Every model scores <b>far above zero: 0.083 to 0.118</b>. The same tags with random labels score 0.000.</p></div>
-      <div><span>2</span><p>They share <b>one blueprint</b>: empathy opens, advice fills the middle, questions close.</p></div>
+      <div><span>1</span><p>Every model scores <b>far above zero: 0.083 to 0.118</b>. The same tags with random labels score about zero (−0.004).</p></div>
+      <div><span>2</span><p>They share <b>one blueprint</b>: empathy opens and advice fills the middle. In four of the five, questions close.</p></div>
       <div><span>3</span><p>The seats (C) are almost the same for all five. The chaining (M) differs. Claude chains the most.</p></div>
       <div><span>4</span><p>When <b>one AI annotator</b> labels everyone the same way, the <b style="color:var(--accent)">human therapist</b> has the weakest seat pattern: C = 0.045, against 0.063–0.086 for the models.</p></div>
     </div>
@@ -382,8 +382,8 @@ svg text{font-family:var(--mono);fill:var(--muted);font-size:11px}
     <p>A script is only a problem if it ignores the person. So we ask what actually changes the behaviour: <b>the seat</b>, <b>the person's state</b>, or <b>the stage of the conversation</b>.</p>
     <div class="find">
       <div><span>1</span><p>For the models, the seat explains <b>6–8.5%</b> of the behaviour. The person's state explains only <b>0.5–1.1%</b>.</p></div>
-      <div><span>2</span><p>The therapist <b>listens first and advises later</b>: advice grows from 6% to 28% of moves across ten turns. The models start advice-heavy and barely change.</p></div>
-      <div><span>3</span><p>When a message is emotionally intense, the therapist cuts advice from 29% to 13%. <b>No model cuts it by more than 5 points.</b> An explicit safety cue does move the models.</p></div>
+      <div><span>2</span><p>The therapist <b>listens first and advises later</b>: advice rises from 8% of moves in turns 1–3 to 28% in turns 8–10. The models begin advice-heavy, at 27–52%, and change less.</p></div>
+      <div><span>3</span><p>When a message is emotionally intense, the therapist cuts advice from 29% to 13%. <b>No model cuts it by more than 5 points.</b> An explicit safety cue moves the models much more: 65–88% of the therapist's shift, against 22–36% for emotional intensity.</p></div>
       <div><span>4</span><p>The script <b>restarts every turn</b>. How one reply ends does not shape how the next one begins.</p></div>
     </div>
     <div class="why"><span class="q">?</span><b>Why test this</b><span>High structure alone does not prove an AI ignores people. Measuring the person's share separately tells us whether the structure answers the person or comes before them.</span></div>
@@ -391,7 +391,7 @@ svg text{font-family:var(--mono);fill:var(--muted);font-size:11px}
   <div class="stage">
     <div class="panel"><h3>Advice, as a share of all moves, turn by turn</h3><div style="overflow-x:auto"><svg id="adv9" viewBox="0 0 640 240" style="width:100%;min-width:460px;display:block;margin-top:6px" role="img" aria-label="Advice share by turn"></svg></div></div>
     <div class="panel"><div class="row" style="justify-content:space-between;margin-bottom:6px"><h3>Your conversation, every turn</h3><div class="seg" id="sp9" role="group" aria-label="Speaker"></div></div>
-      <div class="row" style="margin-bottom:10px"><label class="lab" for="conv9">Conversation</label><select id="conv9" style="font:inherit;font-size:14px;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink)"></select></div>
+      <div class="row" style="margin-bottom:10px"><label class="lab" for="conv9">Conversation</label><select id="conv9" style="max-width:100%;font:inherit;font-size:14px;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink)"></select></div>
       <div class="codes" id="codes9"></div><p class="cap" style="margin-top:10px">Same blind annotator for every speaker, so the rows are comparable.</p></div>
     <div class="panel"><h3 style="margin-bottom:12px">What explains the behaviour? (share of guessing difficulty removed)</h3><div class="hbars" id="hb9"></div>
       <div class="legend" style="margin-top:12px"><span><i style="background:var(--C)"></i>seat in the reply</span><span><i style="background:var(--gold)"></i>person's state</span><span><i style="background:var(--ink)"></i>turn of the conversation</span></div></div>
@@ -405,7 +405,7 @@ svg text{font-family:var(--mono);fill:var(--muted);font-size:11px}
     <h2>Standard evaluation cannot see it</h2>
     <p>We took pairs of replies from the same system with <b>exactly the same moves</b>, arranged differently. An expert-protocol AI judge rated them on a 1–5 scale.</p>
     <p>The more scripted reply scored <b>+0.004</b>, which is no difference. The longer reply in the same pairs scored +0.039, so the judge can notice small things. It just does not notice arrangement.</p>
-    <p>A published training method (MINT) that makes tactics vary across turns lowered one template measure, but left most of the within-reply script in place.</p>
+    <p>A published training method (MINT) that makes tactics vary across turns lowered stickiness (0.571 → 0.422) and choreography (C 0.150 → 0.112), but C stayed above the human level (0.014), close to a simple tactic-list prompt (0.110). Under a second, position-blind labelling, C rose instead (0.093 → 0.195).</p>
     <div class="why"><span class="q">?</span><b>The takeaway</b><span>SCRIPT measures how a system arranges its behaviour, not whether one reply is good. Report it next to quality, not instead of it.</span></div>
   </div>
   <div class="stage">
@@ -624,7 +624,7 @@ function c5(){resetTracksIfNeeded();ctx($('#ctx5'));const E=evs(),all=new Set(E.
 function describe5(){const s=T5.slots||[];const n=Math.max(s.length-1,0);
   const pairs=[];for(let k=0;k<n;k++)pairs.push(`${s[k][s[k].length-1].c} → ${s[k+1][0].c}`);
   const tied=s.reduce((a,x)=>a+x.length-1,0);
-  $('#trans5').innerHTML=`<b>${n} transitions</b> in this reply (${tied} tag${tied===1?'':'s'} share a slot and get no arrow). First few: <span class="mono">${pairs.slice(0,6).join(' · ')}</span>${pairs.length>6?' …':''}<br><br>Across all of Claude's replies, advice follows a validation 43% of the time, where its seat alone would predict 22%. That extra pull is what momentum (M) counts.`}
+  $('#trans5').innerHTML=`<b>${n} transitions</b> in this reply (${tied} tag${tied===1?'':'s'} share a slot and get no arrow). First few: <span class="mono">${pairs.slice(0,6).join(' · ')}</span>${pairs.length>6?' …':''}<br><br>For example, across all of Claude's replies, advice follows an inaccurate validation (VIN) 43% of the time, where its seat alone would predict 22%. That extra pull is what momentum (M) counts.`}
 $('#play5').onclick=async()=>{const arws=$$('#t5 .arw');const s=T5.slots||[];
   for(const c of T5.chips.values())c.classList.remove('lit');
   for(let k=0;k<s.length;k++){s[k].forEach(e=>T5.chips.get(e.i).classList.add('lit'));if(arws[k-1])arws[k-1].setAttribute('stroke','var(--ink)');await wait(RM?0:420);s[k].forEach(e=>T5.chips.get(e.i).classList.remove('lit'))}
